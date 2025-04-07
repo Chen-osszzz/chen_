@@ -1,0 +1,29 @@
+# Ask user to set a username
+username = input("Set your username: ").strip()
+
+# Check if username is empty after stripping
+if username == "":
+    print(" Please enter a valid username.")
+else:
+    print("Welcome,", username, "\n")
+
+    print("Health Tracker Menu")
+    print("1. Log Water")
+    print("2. Log Calories")
+    print("3. Log Sleep")
+    print("4. Log Exercise")
+
+    water = input("1. How much water did you drink today (liters)? ")
+    print("Water intake:",water,"L")
+
+    cal = input("2. How many calories did you consume today? ")
+    print("Calories intake:", cal,"calories")
+
+    sleep = input("3. How many much did you sleep today? ")
+    print("Sleep duration:",sleep,"hours")
+
+    exercise = input("4. What exercise did you do today? ")
+    minutes = input("For how many minutes? ")
+    print("Exercise duration:", minutes, "minutes")
+
+    print("\nYou have succefully entered  your daily activities. Thank you for using our Health Tracker!")
