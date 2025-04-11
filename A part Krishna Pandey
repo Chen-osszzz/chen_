@@ -1,29 +1,38 @@
-# Ask user to set a username
+#  user needs to set a username
 username = input("Set your username: ").strip()
 
-# Check if username is empty after stripping
+# username cant be empty
 if username == "":
-    print(" Please enter a valid username.")
+    print("Please enter a valid username.")
 else:
     print("Welcome,", username, "\n")
 
-    print("Health Tracker Menu")
+    # day number should be saved as well
+    day_number = input("Please input the day number : ").strip()
+    filename = f"day{day_number}.txt"
+
+    print("\nHealth Tracker Menu")
     print("1. Log Water")
     print("2. Log Calories")
     print("3. Log Sleep")
     print("4. Log Exercise")
 
+    # Collect data
     water = input("1. How much water did you drink today (liters)? ")
-    print("Water intake:",water,"L")
-
     cal = input("2. How many calories did you consume today? ")
-    print("Calories intake:", cal,"calories")
-
-    sleep = input("3. How many much did you sleep today? ")
-    print("Sleep duration:",sleep,"hours")
-
+    sleep = input("3. How much did you sleep today (hours)? ")
     exercise = input("4. What exercise did you do today? ")
     minutes = input("For how many minutes? ")
-    print("Exercise duration:", minutes, "minutes")
 
-    print("\nYou have succefully entered  your daily activities. Thank you for using our Health Tracker!")
+    # Save data to file
+    with open(filename, "w") as file:
+        file.write(f"Username: {username}\n")
+        file.write(f"Day: {day_number}\n")
+        file.write(f"Water intake: {water} L\n")
+        file.write(f"Calories intake: {cal} calories\n")
+        file.write(f"Sleep duration: {sleep} hours\n")
+        file.write(f"Exercise: {exercise}\n")
+        file.write(f"Exercise duration: {minutes} minutes\n")
+
+    print("\nYou have successfully entered your daily activities.")
+    print(f"Your data has been saved to {filename}. Thank you for using our Health Tracker!")
