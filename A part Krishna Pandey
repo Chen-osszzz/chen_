@@ -17,7 +17,7 @@ else:
     print("3. Log Sleep")
     print("4. Log Exercise")
 
-    # Collect data
+    # user should enter there information
     water = input("1. How much water did you drink today (liters)? ")
     cal = input("2. How many calories did you consume today? ")
     sleep = input("3. How much did you sleep today (hours)? ")
