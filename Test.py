@@ -1,28 +1,37 @@
 import os
 
 # ================== A. DAILY LOGGING MODULE ==================
+# These functions allow the user to log daily activities and health data.
+
 def log_meal(data):
+    # Logs user's meal and calorie intake
     food = input("What did you eat today? ")
     calories = input("How many calories did you consume? ")
     data["meal"] = food
     data["calories"] = float(calories)
 
 def log_sleep(data):
+    # Logs sleep duration in hours
     sleep = input("How many hours did you sleep? ")
     data["sleep"] = float(sleep)
 
 def log_water(data):
+    # Logs water intake in liters
     water = input("How much water did you drink (in liters)? ")
     data["water"] = float(water)
 
 def log_exercise(data):
+    # Logs exercise type and duration
     activity = input("What exercise did you do? ")
     duration = input("How long (in minutes)? ")
     data["exercise"] = activity
     data["duration"] = int(duration)
 
 # ================== B. SUMMARY & STATS MODULE ==================
+# Functions to load weekly logs and calculate statistics like totals and averages.
+
 def load_logs_for_week():
+    # Loads daily logs for day1.txt to day7.txt and extracts relevant metrics
     log_data = {
         "Day": [],
         "Calories": [],
@@ -39,6 +48,7 @@ def load_logs_for_week():
                 log_data["Day"].append(f"Day {i}")
                 for line in lines:
                     key, value = line.strip().split(":", 1)
+                    # Sort values into correct lists for stats
                     if key.lower() == "calories":
                         log_data["Calories"].append(float(value))
                     elif key.lower() == "sleep":
@@ -50,6 +60,7 @@ def load_logs_for_week():
     return log_data
 
 def calculate_weekly_stats(log_data):
+    # Calculates and displays total and average statistics for the week
     def average(lst):
         return sum(lst) / len(lst) if lst else 0
 
@@ -64,6 +75,7 @@ def calculate_weekly_stats(log_data):
     print(f"Average Exercise Duration: {average(log_data['Exercise duration']):.1f} mins")
 
 def calculate_daily_totals(data):
+    # Displays the daily summary for the current day's data
     print("\n--- Daily Totals ---")
     print(f"Water: {data.get('water', 0)} L")
     print(f"Calories: {data.get('calories', 0)} kcal")
@@ -71,6 +83,7 @@ def calculate_daily_totals(data):
     print(f"Exercise: {data.get('exercise', 'None')} for {data.get('duration', 0)} mins")
 
 def generate_weekly_summary():
+    # Reads and prints raw log files for each day of the week
     print("\n--- Weekly Summary ---")
     for filename in os.listdir():
         if filename.startswith("day") and filename.endswith(".txt"):
@@ -79,18 +92,23 @@ def generate_weekly_summary():
                 print(f.read())
 
 # ================== C. ALERTS & GOALS MODULE ==================
-SLEEP_GOAL = 7.0
-WATER_GOAL = 2.0
+# Warns the user if they miss sleep or water goals and gives health tips.
+
+SLEEP_GOAL = 7.0  # Recommended minimum sleep (hours)
+WATER_GOAL = 2.0  # Recommended minimum water intake (liters)
 
 def check_sleep_goal(day_data):
+    # Checks if sleep goal was met
     sleep = day_data.get("sleep", 0)
     return sleep < SLEEP_GOAL
 
 def check_water_goal(day_data):
+    # Checks if water goal was met
     water = day_data.get("water", 0)
     return water < WATER_GOAL
 
 def suggest_tips(missed):
+    # Provides health suggestions based on what was missed
     tips = []
     if "sleep" in missed:
         tips.append("💤 Try sleeping 30 minutes earlier.")
@@ -99,6 +117,7 @@ def suggest_tips(missed):
     return tips
 
 def show_warnings(data_dict):
+    # Goes through all days and shows warnings and tips for missed goals
     print("\n⚠️ Health Warnings:")
     found = False
     for day, data in data_dict.items():
@@ -120,12 +139,16 @@ def show_warnings(data_dict):
         print("✅ You met all your goals! Great job!")
 
 # ================== D. CLI MENU & FILE MANAGEMENT ==================
+# Main menu interface and file loading/saving for each day's log.
+
 def save_log_to_file(data, filename):
+    # Saves a dictionary of data to a text file
     with open(filename, "w") as file:
         for key, value in data.items():
             file.write(f"{key}:{value}\n")
 
 def load_log_from_file(filename):
+    # Loads data from a file and stores it in a dictionary
     data = {}
     if not os.path.exists(filename):
         return data
@@ -141,6 +164,7 @@ def load_log_from_file(filename):
     return data
 
 def main_menu():
+    # User interface for interacting with the health tracker system
     username = input("Enter your username: ").strip()
     if username == "":
         print("Please enter a valid username.")
@@ -155,6 +179,7 @@ def main_menu():
     data["day"] = day_number
 
     while True:
+        # Show options for the user
         print("\n===== Health Tracker Menu =====")
         print("1. Log Water")
         print("2. Log Meal/Calories")
@@ -164,7 +189,7 @@ def main_menu():
         print("6. Save and Exit")
         print("7. Weekly Summary (Raw Logs)")
         print("8. Show Warnings")
-        print("9. Show Weekly Stats")  # 💥 New Option!
+        print("9. Show Weekly Stats")
 
         choice = input("Choose an option: ")
 
@@ -191,10 +216,12 @@ def main_menu():
                     all_data[f] = load_log_from_file(f)
             show_warnings(all_data)
         elif choice == "9":
+            # Loads and calculates weekly statistics (total + average)
             log_data = load_logs_for_week()
             calculate_weekly_stats(log_data)
         else:
             print("Invalid option. Try again.")
 
+# Entry point for the script
 if __name__ == "__main__":
     main_menu()
