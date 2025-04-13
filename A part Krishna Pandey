@@ -28,11 +28,11 @@ else:
     with open(filename, "w") as file:
         file.write(f"Username: {username}\n")
         file.write(f"Day: {day_number}\n")
-        file.write(f"Water intake: {water} L\n")
-        file.write(f"Calories intake: {cal} calories\n")
-        file.write(f"Sleep duration: {sleep} hours\n")
+        file.write(f"Water intake: {water} \n")
+        file.write(f"Calories intake: {cal}\n")
+        file.write(f"Sleep duration: {sleep}\n")
         file.write(f"Exercise: {exercise}\n")
-        file.write(f"Exercise duration: {minutes} minutes\n")
+        file.write(f"Exercise duration: {minutes}\n")
 
     print("\nYou have successfully entered your daily activities.")
     print(f"Your data has been saved to {filename}. Thank you for using our Health Tracker!")
