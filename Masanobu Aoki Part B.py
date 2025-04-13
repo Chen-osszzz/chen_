@@ -9,7 +9,6 @@ def load_log_from_file(filename_day1, filename_day2, filename_day3, filename_day
         "Exercise": [],
         "Exercise duration": []
     }
-
   filenames = [filename_day1, filename_day2, filename_day3, filename_day4, filename_day5, filename_day6, filename_day7]
   for files in filenames:
       file = open(files, "r")
@@ -66,6 +65,15 @@ def water_stat(log_data):
       total_water+=i
   avg_water=total_water/count_days
   return total_water, avg_water
+#Creates a list of different types of exercise that the user did
+def exercise_type(log_data):
+  exercise_list=log_data["Exercise"]
+  exercise_type_list=[]
+  for i in exercise_list:
+      if i not in exercise_type_list:
+        exercise_type_list.append(i)
+  return exercise_type_list
+  
 #Calculate duration of the exercise statistics
 def exercise_duration_stat(log_data):
   count_days=len(log_data["Day"])
@@ -84,8 +92,9 @@ def weekly_summary(log_data):
   total_calories, avg_calories=calories_stat(log_data)
   total_sleep, avg_sleep=sleep_stat(log_data)
   total_water, avg_water=water_stat(log_data)
+  types_of_exercise=exercise_type(log_data)
   total_exercise_duration, avg_exercise_duration=exercise_duration_stat(log_data)
-  return total_calories, avg_calories, total_sleep, avg_sleep, total_water, avg_water, total_exercise_duration, avg_exercise_duration
+  return total_calories, avg_calories, total_sleep, avg_sleep, total_water, avg_water, types_of_exercise, total_exercise_duration, avg_exercise_duration
     
 #The code below is a suggestion for calling all the functions above nd return all the statistics 
 #print(weekly_summary(load_log_from_file("day1.txt", "day2.txt", "day3.txt", "day4.txt", "day5.txt", "day6.txt", "day7.txt")))
