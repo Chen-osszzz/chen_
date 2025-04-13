@@ -22,6 +22,47 @@ def log_exercise(data):
     data["duration"] = int(duration)
 
 # ================== B. SUMMARY & STATS MODULE ==================
+def load_logs_for_week():
+    log_data = {
+        "Day": [],
+        "Calories": [],
+        "Sleep": [],
+        "Water": [],
+        "Exercise duration": []
+    }
+
+    for i in range(1, 8):
+        filename = f"day{i}.txt"
+        if os.path.exists(filename):
+            with open(filename, "r") as file:
+                lines = file.readlines()
+                log_data["Day"].append(f"Day {i}")
+                for line in lines:
+                    key, value = line.strip().split(":", 1)
+                    if key.lower() == "calories":
+                        log_data["Calories"].append(float(value))
+                    elif key.lower() == "sleep":
+                        log_data["Sleep"].append(float(value))
+                    elif key.lower() == "water":
+                        log_data["Water"].append(float(value))
+                    elif key.lower() == "duration":
+                        log_data["Exercise duration"].append(float(value))
+    return log_data
+
+def calculate_weekly_stats(log_data):
+    def average(lst):
+        return sum(lst) / len(lst) if lst else 0
+
+    print("\n📊 Weekly Health Statistics:")
+    print(f"Total Calories: {sum(log_data['Calories'])} kcal")
+    print(f"Average Calories: {average(log_data['Calories']):.1f} kcal")
+    print(f"Total Sleep: {sum(log_data['Sleep'])} hrs")
+    print(f"Average Sleep: {average(log_data['Sleep']):.1f} hrs")
+    print(f"Total Water: {sum(log_data['Water'])} L")
+    print(f"Average Water: {average(log_data['Water']):.1f} L")
+    print(f"Total Exercise Duration: {sum(log_data['Exercise duration'])} mins")
+    print(f"Average Exercise Duration: {average(log_data['Exercise duration']):.1f} mins")
+
 def calculate_daily_totals(data):
     print("\n--- Daily Totals ---")
     print(f"Water: {data.get('water', 0)} L")
@@ -121,8 +162,9 @@ def main_menu():
         print("4. Log Exercise")
         print("5. Show Daily Summary")
         print("6. Save and Exit")
-        print("7. Weekly Summary")
+        print("7. Weekly Summary (Raw Logs)")
         print("8. Show Warnings")
+        print("9. Show Weekly Stats")  # 💥 New Option!
 
         choice = input("Choose an option: ")
 
@@ -148,6 +190,9 @@ def main_menu():
                 if f.startswith("day") and f.endswith(".txt"):
                     all_data[f] = load_log_from_file(f)
             show_warnings(all_data)
+        elif choice == "9":
+            log_data = load_logs_for_week()
+            calculate_weekly_stats(log_data)
         else:
             print("Invalid option. Try again.")
 
