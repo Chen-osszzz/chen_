@@ -22,26 +22,25 @@ def log_exercise(data):
     data["duration"] = int(duration)
 
 # ================== B. SUMMARY & STATS MODULE ==================
-def calculate_daily_totals(data):
-    print("\n--- Daily Totals ---")
-    print(f"Water: {data.get('water', 0)} L")
-    print(f"Calories: {data.get('calories', 0)} kcal")
-    print(f"Sleep: {data.get('sleep', 0)} hrs")
-    print(f"Exercise: {data.get('exercise', 'None')} for {data.get('duration', 0)} mins")
-
+#Function for calculating and displaying the weekly stats
 def calculate_weekly_stats():
+    #Set values for update as files get saved
     print("\n--- Weekly Statistics ---")
     total_water = 0
     total_calories = 0
     total_sleep = 0
     total_exercise_duration = 0
     count = 0
-
+    #Loop through all the files in the current directory. 
     for filename in os.listdir():
+        #Reads the files the starts with "day" and endswith ".txt".
         if filename.startswith("day") and filename.endswith(".txt"):
+            #With function ensures it opens and closes after reading the file
             with open(filename, "r") as file:
+                #Reads each line in the txt files
                 for line in file:
                     if ":" in line:
+                        #Splits the string in the txt file with the colon and sets key and values
                         key, value = line.strip().split(":", 1)
                         if key == "water":
                             total_water += float(value)
@@ -56,7 +55,7 @@ def calculate_weekly_stats():
     if count == 0:
         print("No data found for the week.")
         return
-
+    #Calculates the average of each values, round them into two decimal places and dispaly
     print(f"Average Water: {round(total_water / count, 2)} L")
     print(f"Average Calories: {round(total_calories / count, 2)} kcal")
     print(f"Average Sleep: {round(total_sleep / count, 2)} hrs")
@@ -104,11 +103,14 @@ def show_warnings(data_dict):
         print("✅ You met all your goals! Great job!")
 
 # ================== D. CLI MENU & FILE MANAGEMENT ==================
+#Coded by part A coder but relocated for better clarity to call the functions
+#Writes the user inputs from part A into a txt file 
 def save_log_to_file(data, filename):
     with open(filename, "w") as file:
         for key, value in data.items():
             file.write(f"{key}:{value}\n")
-
+#Coded by part B coder but relocated for better clarity to call the functions
+#Reads the txt files and set a dictionary with values of list 
 def load_log_from_file(filename):
     data = {}
     if os.path.exists(filename):
